@@ -12,17 +12,20 @@ By Jordan Eshpeter (301403448)
 import grafica.*;
 import java.util.*;
 // import java.text.SimpleDateFormat;
-
+//test
 ArrayList<String> points = new ArrayList();
 
 GPlot plot;
+// String flags = "" FLAGS
+// Array for FANG Facebook [0], Amazon [1]
+// Text input to flags variable
 
 void setup() {
   // Set the size of the sketch
   size(1000, 600);
   smooth();
 
-  // Make the Configuration Builder object and authenticate with Twitter
+  // Make the Configuration Builder object to authenticate with Twitter
   ConfigurationBuilder cb = new ConfigurationBuilder();
   cb.setOAuthConsumerKey("UQuhEpQesWYPS0qOXvfUxYR1X");
   cb.setOAuthConsumerSecret("NQGzCaCOSAWsWzwu2y5PdgBi5Pjb0vhm6xdWadJP6QPA86eLKy");
@@ -67,7 +70,7 @@ void setup() {
     plot = new GPlot(this);
     plot.setDim(900, 500);
     plot.setTitleText("Moral Lapse: A Timeline of Technology Ethics");
-    plot.getXAxis().setAxisLabelText("Time (Date)");
+    plot.getXAxis().setAxisLabelText("Time (the most recent seven days)");
     plot.getYAxis().setAxisLabelText("Popularity (Retweet Count)");
     plot.setLogScale("x");
     plot.setPoints(points);
