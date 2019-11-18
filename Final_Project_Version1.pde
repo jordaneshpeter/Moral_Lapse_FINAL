@@ -2,7 +2,7 @@
 MORAL LAPSE
  Final Project Part 2: Version 2
  By Jordan Eshpeter (301403448)
- 11/10/2019
+ 11/17/2019
  */
 
 // Moral Lapse is an interactive data visualization that demonstrates the increasing awareness and effect of ethical issues in the technology 
@@ -100,7 +100,7 @@ void queryTwitter(String arg) {
   //}
 
   query.setCount(100);
-  //  query.setResultType(Query.MIXED);
+  //query.setResultType(Query.MIXED);
 
   // Try making the query request and build the ArrayList
   try {
@@ -149,26 +149,26 @@ void queryTwitter(String arg) {
   }
 }
 
-void controlEvent(ControlEvent theEvent) {
-  if (theEvent.getController().getName()=="facebook") {
-    queryTwitter("facebook");
-  }    
-  if (theEvent.getController().getName()=="amazon") {
-    queryTwitter("amazon");
+  void controlEvent(ControlEvent theEvent) {
+    if (theEvent.getController().getName()=="facebook") {
+      queryTwitter("facebook");
+    }    
+    if (theEvent.getController().getName()=="amazon") {
+      queryTwitter("amazon");
+    }
+    if (theEvent.getController().getName()=="apple") {
+      queryTwitter("apple");
+    }
+    if (theEvent.getController().getName()=="netflix") {
+      queryTwitter("netflix");
+    }
+    if (theEvent.getController().getName()=="google") {
+      queryTwitter("google");
+    }
+    if (theEvent.getController().getName()=="reset") {
+      queryTwitter("reset");
+    }
   }
-  if (theEvent.getController().getName()=="apple") {
-    queryTwitter("apple");
-  }
-  if (theEvent.getController().getName()=="netflix") {
-    queryTwitter("netflix");
-  }
-  if (theEvent.getController().getName()=="google") {
-    queryTwitter("google");
-  }
-  if (theEvent.getController().getName()=="reset") {
-    queryTwitter("reset");
-  }
-}
 
 void draw() {
   // Clean the screen
