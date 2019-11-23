@@ -9,61 +9,67 @@ MORAL LAPSE
 // industry. Tweets from verified Twitter users are filtered for recency and topical relevance, plotted as points by Retweet Count and Time, and sized
 // according to their Favorite Count.
 
+
+// Import libraries for plotting, Twitter integration, and graphical user interface elements
 import grafica.*;
 import java.util.*;
 import controlP5.*;
 // import java.text.SimpleDateFormat*;
 
 ArrayList<String> points = new ArrayList();
+//  ArrayList<String> words = new ArrayList();
 
+// Declare global classes and objects
 GPlot plot;
 ControlP5 cp5;
 
+// Setup the sketch
 void setup() {
-  // Set the size of the sketch
   size(1125, 625);
   smooth();
+  // Declare queryTwitter function with a String argument
   queryTwitter("");
 
+  //Initialize the cp5 object for buttons and set default colours
   cp5 = new ControlP5(this);
   cp5.setColorForeground(#a5a6a9);
   cp5.setColorBackground(#2f292b);
   cp5.setColorActive(#f45844);
 
-  // create a new button with name 'facebook'
+  // Create a new button with name 'facebook'
   cp5.addButton("facebook")
     .setPosition(1000, 50)
     .setSize(100, 49)
     ;
-  // create a new button with name 'amazon'
+  // Create a new button with name 'amazon'
   cp5.addButton("amazon")
     .setPosition(1000, 100)
     .setSize(100, 49)
     ;
-  // create a new button with name 'apple'     
+  // Create a new button with name 'apple'     
   cp5.addButton("apple")
     .setPosition(1000, 150)
     .setSize(100, 49)
     ;
-  // create a new button with name 'netflix'
+  // Create a new button with name 'netflix'
   cp5.addButton("netflix")
     .setPosition(1000, 200)
     .setSize(100, 49)
     ;
-  // create a new button with name 'google'
+  // Create a new button with name 'google'
   cp5.addButton("google")
     .setPosition(1000, 250)
     .setSize(100, 49)
     ;
-  // create a new button with name 'RESET'
+  // Create a new button with name 'RESET'
   cp5.addButton("reset")
     .setPosition(1000, 325)
     .setSize(100, 50)
     ;
 }
 
+// Introduce function and statements to query Twitter
 void queryTwitter(String arg) {
-
   // Make the Configuration Builder object to authenticate with Twitter
   ConfigurationBuilder cb = new ConfigurationBuilder();
   cb.setOAuthConsumerKey("UQuhEpQesWYPS0qOXvfUxYR1X");
@@ -73,8 +79,10 @@ void queryTwitter(String arg) {
 
   // Make the Twitter object and prepare the query
   Twitter twitter = new TwitterFactory(cb.build()).getInstance();
-  //Query query = new Query("");
+  // Primary query for the most influential technology and ethics Tweets
   Query query = new Query("(tech OR technology) (ethics OR moral) filter:verified -filter:retweets -filter:quote -filter:replies lang:en");
+  query.setResultType(Query.MIXED);
+  // Compare queries with event listener and button name arguments (i.e., F.A.A.N.G.)
   if (arg.equalsIgnoreCase("facebook")) {
     query = new Query("(facebook OR @facebook) (ethics OR ethic) -filter:retweets -filter:quote -filter:replies lang:en");
     query.setResultType(Query.MIXED);
@@ -95,12 +103,7 @@ void queryTwitter(String arg) {
     query = new Query("(google OR @google) (ethics OR ethic) -filter:retweets -filter:quote -filter:replies lang:en");
     query.setResultType(Query.MIXED);
   }
-  //if(arg.equalsIgnoreCase("reset")) {
-  //query = new Query("(tech OR technology) (ethics OR moral) filter:verified -filter:retweets -filter:quote -filter:replies lang:en");
-  //}
-
   query.setCount(100);
-  //query.setResultType(Query.MIXED);
 
   // Try making the query request and build the ArrayList
   try {
@@ -125,17 +128,26 @@ void queryTwitter(String arg) {
       println("Tweet by " + user + " at " + d + " and Retweeted " + rtc + " times and Favourited " + fc + " times: ");
       points.add(d.getTime(), rtc, msg);
       //SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+      
+    //  //Break the tweet into words
+    //  String[] input = msg.split(" ");
+    //  for (int j = 0;  j < input.length; j++) {
+    //   //Put each word into the words ArrayList
+    //   words.add(input[j]);
+    //  }
 
-      // The point area is proportional to the Favorite Count
-      pointSizes[i] = 15 + (fc * .08);
+    // The point area is proportional to the Favorite Count
+    pointSizes[i] = 15 + (fc * .08);
     }
 
-    // Create the plot
+    // Initialize the plot object and methods
     plot = new GPlot(this);
     plot.setDim(900, 500);
     plot.setTitleText("Moral Lapse: A Timeline of Technology Ethics");
-    plot.getXAxis().setAxisLabelText("Time (the most recent seven days)");
+//  plot.setPointColor(color(#f45844)); //Set original layer amber
+    plot.getXAxis().setAxisLabelText("Time");
     plot.getYAxis().setAxisLabelText("Popularity (Retweet Count)");
+//  plot.getXAxis().setNTicks(10);
     plot.setLogScale("x");
     plot.setPoints(points);
     plot.setPointSizes(pointSizes);
@@ -148,7 +160,7 @@ void queryTwitter(String arg) {
     println("Couldn't connect: " + te);
   }
 }
-
+  // Listen for events per button by name and call the related queryTwitter function
   void controlEvent(ControlEvent theEvent) {
     if (theEvent.getController().getName()=="facebook") {
       queryTwitter("facebook");
@@ -183,5 +195,6 @@ void draw() {
   plot.drawGridLines(GPlot.BOTH);
   plot.drawPoints();
   plot.drawLabels();
+  //plot.drawLegend(new String[] {"Oktoberfest", "Bundestagswahl"}, new float[] {0.07, 0.22}, new float[] {0.92, 0.92});
   plot.endDraw();
 }
