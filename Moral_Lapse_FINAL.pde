@@ -109,6 +109,7 @@ void queryTwitter(String arg) {
     // Save the data in one GPointsArray and calculate the point sizes
     GPointsArray points = new GPointsArray();
     int nbrOfTweets = tweets.size();
+    color[] pointColors = new color[nbrOfTweets];
     float[] pointSizes = new float[nbrOfTweets];
     //color[] pointColors = new color[nbrOfTweets];
     println("There are " + nbrOfTweets + " Tweets ");
@@ -139,6 +140,20 @@ void queryTwitter(String arg) {
       }
     
     scoredTweets[i] = score;
+    color assignedColor;
+    if(score > 0)
+    {
+      assignedColor = color(#f45844, 150);
+    }
+    else if(score == 0)
+    {
+      assignedColor = color(#2f292b, 150);
+    }
+    else 
+    {
+      assignedColor = color(#008cbc, 150);
+    }
+    pointColors[i] = assignedColor;
     
     // The point area is proportional to the Favorite Count
     points.add(d.getTime(), rtc, msg);
@@ -156,16 +171,7 @@ void queryTwitter(String arg) {
     plot.getYAxis().setAxisLabelText("Popularity (Retweet Count)");
     plot.getXAxis().setNTicks(10);
     plot.setLogScale("x");
-    //color[] pointColors = new color[nbrOfTweets];
-    //if (scoredTweets < 0)
-    //{
-    //plot.setPointColor(color(10));
-    //}
-    //else if (scoredTweets > 0)
-    //{
-    //plot1.setPointColor(color(250));
-    //}
-    //plot.setPointColors(pointColors);
+    plot.setPointColors(pointColors);
     plot.setPoints(points);
     plot.setPointSizes(pointSizes);
     plot.activatePointLabels();
